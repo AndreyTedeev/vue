@@ -1,15 +1,29 @@
 <script setup lang="ts">
+import { useUserStore } from "@/stores/UserStore";
+
+const UserStore = useUserStore();
 defineProps<{
   msg: string
 }>()
+
+const ChangeUser = (e: Event) => {
+  const el = e.target as HTMLSelectElement;
+  const selected = UserStore.Items[el.selectedIndex];
+  UserStore.SetAuth(selected);
+}
 </script>
 
 <template>
   <div class="greetings">
-    <h1 class="green">{{ msg }}</h1>
-    <h3>
+    <h1 class="green">{{ msg }}, {{UserStore.Auth.Name}}</h1>
+    <select @change="ChangeUser">
+      <option v-for="user in UserStore.Items">
+        {{ user.Name }}
+      </option>
+    </select>
+    <h4>
       Just used a scaffolded welcome page
-    </h3>
+    </h4>
   </div>
 </template>
 
@@ -30,6 +44,7 @@ h3 {
 }
 
 @media (min-width: 1024px) {
+
   .greetings h1,
   .greetings h3 {
     text-align: left;

@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { useTodoStore } from "@/stores/TodoStore";
-
-const todoStore = useTodoStore();
+import Thetodo from '@/components/TheTodo.vue'
+import TheTodo from '../components/TheTodo.vue'
 </script>
 
 <template>
-  <div class="todoApp">
-    {{todoStore.data || "no data yet"}}
-  </div>
+    <main>
+      <TheTodo/>
+    </main>
 </template>
 
 <style>
