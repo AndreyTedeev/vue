@@ -2,7 +2,8 @@ import axios from "axios";
 import { defineStore, acceptHMRUpdate } from "pinia";
 import { useUserStore } from "@/stores/UserStore";
 
-import type { TodoItem } from "@/types/TodoItem";
+import { TodoItem } from "@/types/TodoItem";
+import { computed } from "@vue/reactivity";
 
 export const useTodoStore = defineStore("TodoStore", {
     state: () => {
@@ -12,6 +13,10 @@ export const useTodoStore = defineStore("TodoStore", {
         }
     },
     getters: {
+        ReversedItems() : TodoItem[] {
+            const clone = [...this.Items]
+            return clone.reverse()
+        },
         Auth() {
             const userStore = useUserStore();
             return userStore.Auth;
@@ -31,7 +36,14 @@ export const useTodoStore = defineStore("TodoStore", {
                 item.body = body
             }
             else {
-                // Insert new todo
+                const newItem = new TodoItem();
+                // max id + 1
+                newItem.id = this.Items.reduce((op, item) => op = op > item.id ? op : item.id, 0) + 1; 
+                newItem.userId = this.Auth.id
+                newItem.title = title
+                newItem.body = body
+                // isCompleted is false by default
+                this.Items.push(newItem);
             }
         },
         async Load() {

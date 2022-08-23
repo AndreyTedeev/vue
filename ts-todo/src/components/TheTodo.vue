@@ -40,7 +40,8 @@ const saveEdit = (title: string, body: string) => {
 <template>
   <div v-if="todoStore.IsLoaded" class="todoApp">
     <h4>Loaded {{ todoStore.Items.length }} items for: '{{ todoStore.Auth.name }}'</h4>
-    <div style="margin: 10px;" v-for="item in todoStore.Items">
+    <TodoItemEdit :item="null" @@cancel="cancelEdit" @@save="saveEdit"></TodoItemEdit>
+    <div style="margin-top: 10px;" v-for="item in todoStore.ReversedItems">
       <TodoItemEdit v-if="isEditingItem(item)" :item="item" @@cancel="cancelEdit" @@save="saveEdit"></TodoItemEdit>
       <TodoItemCard v-else :item="item" @@completed="handleCompleted" @@edit="handleEdit"></TodoItemCard>
     </div>
