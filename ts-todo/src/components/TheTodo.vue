@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { useTodoStore } from "@/stores/TodoStore";
-import { onMounted } from "vue";
+import type { TodoItem } from "@/types/TodoItem";
+import { onMounted, ref } from "vue";
 import TodoItemCard from "./TodoItemCard.vue";
+import TodoItemEdit from "./TodoItemEdit.vue";
 
 const todoStore = useTodoStore();
 
@@ -11,16 +13,31 @@ onMounted(() => {
   }
 });
 
+const editItemIdRef = ref<Number | null>(null)
+
+const isEditingItem = (item: TodoItem) => {
+  return editItemIdRef.value == item?.id
+}
+
 const handleCompleted= (itemId: Number) => {
   todoStore.ToggleCompleted(itemId)
+}
+
+const handleEdit= (itemId: Number | null) => {
+  editItemIdRef.value = itemId;
+}
+
+const cancelEdit = () => {
+  editItemIdRef.value = null;
 }
 </script>
 
 <template>
   <div v-if="todoStore.IsLoaded" class="todoApp">
-    <h4>Loaded {{ todoStore.Items.length }} items for: '{{ todoStore.Auth.Name }}'</h4>
+    <h4>Loaded {{ todoStore.Items.length }} items for: '{{ todoStore.Auth.name }}'</h4>
     <div style="margin: 10px;" v-for="item in todoStore.Items">
-      <TodoItemCard :item="item" @@completed="handleCompleted"></TodoItemCard>
+      <TodoItemEdit v-if="isEditingItem(item)" :item="item" @@cancel="cancelEdit"></TodoItemEdit>
+      <TodoItemCard v-else :item="item" @@completed="handleCompleted" @@edit="handleEdit"></TodoItemCard>
     </div>
   </div>
   <div v-else>

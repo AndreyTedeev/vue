@@ -15,10 +15,10 @@ const ChangeUser = (e: Event) => {
 
 <template>
   <div class="greetings">
-    <h1 class="green">{{ msg }}, {{UserStore.Auth.Name}}</h1>
+    <h1 class="green">{{ msg }}, {{UserStore.Auth.name}}</h1>
     <select @change="ChangeUser">
       <option v-for="user in UserStore.Items">
-        {{ user.Name }}
+        {{ user.name }}
       </option>
     </select>
     <h4>
