@@ -1,34 +1,45 @@
 import axios from "axios";
 import { defineStore, acceptHMRUpdate } from "pinia";
-import { computed, ref } from "@vue/reactivity";
+import { useUserStore } from "@/stores/UserStore";
 
 import type { TodoItem } from "@/types/TodoItem";
 
-const ItemsRef = ref<Array<TodoItem> | null>(null);
-const IsLoadedRef = computed<boolean>(() => ItemsRef.value != null);
-
 export const useTodoStore = defineStore("TodoStore", {
+    state: () => {
+        return {
+            IsLoaded: false,
+            Items: [] as TodoItem[],
+        }
+    },
     getters: {
-        Items() {
-            return ItemsRef.value
-        },
-        IsLoaded() {
-            return IsLoadedRef.value
+        Auth() {
+            const userStore = useUserStore();
+            return userStore.Auth;
         }
     },
     actions: {
+        ToggleCompleted(itemId: Number) {
+            const item = this.Items.find(x => x.id == itemId)
+            if (item) {
+                item.isCompleted = !item.isCompleted
+            }
+        },
         async Load() {
             const url = "https://jsonplaceholder.typicode.com/posts";
             await this.LoadFromUrl(url);
         },
 
         async LoadFromUrl(url: string) {
+            this.IsLoaded = false;
+
             // TODO: remove after testing
             // this code line just a delay for a second to test IsLoaded functionality
             await new Promise(resolve => setTimeout(resolve, 1000));
 
+            // Emulates REST API call to get items by user
             const response = await axios.get<TodoItem[]>(url);
-            ItemsRef.value = response.data || [];
+            this.Items = response.data.filter(x => x.userId == this.Auth.Id);
+            this.IsLoaded = true;
         }
     }
 

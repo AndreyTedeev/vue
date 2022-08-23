@@ -1,6 +1,15 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+import { useUserStore } from "@/stores/UserStore";
+import { useTodoStore } from "@/stores/TodoStore";
+
+const UserStore = useUserStore();
+const TodoStore = useTodoStore();
+UserStore.$subscribe((mutation, state) => {
+  TodoStore.Load();
+})
+
 </script>
 
 <template>

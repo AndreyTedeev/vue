@@ -9,7 +9,7 @@ defineProps<{
 const ChangeUser = (e: Event) => {
   const el = e.target as HTMLSelectElement;
   const selected = UserStore.Items[el.selectedIndex];
-  UserStore.SetAuth(selected);
+  UserStore.Auth = selected;
 }
 </script>
 

@@ -1,25 +1,29 @@
 <script setup lang="ts">
 import { useTodoStore } from "@/stores/TodoStore";
 import { onMounted } from "vue";
-import type { User } from "@/types/User";
-import { useUserStore } from "@/stores/UserStore";
+import TodoItemCard from "./TodoItemCard.vue";
 
-const TodoStore = useTodoStore();
-const UserStore = useUserStore();
+const todoStore = useTodoStore();
 
 onMounted(() => {
-  if (!TodoStore.IsLoaded) {
-    TodoStore.Load();
+  if (!todoStore.IsLoaded) {
+    todoStore.Load();
   }
 });
+
+const handleCompleted= (itemId: Number) => {
+  todoStore.ToggleCompleted(itemId)
+}
 </script>
 
 <template>
-  {{UserStore.Auth.Name}}
-  <div v-if="TodoStore.IsLoaded" class="todoApp">
-    loaded!!!
+  <div v-if="todoStore.IsLoaded" class="todoApp">
+    <h4>Loaded {{ todoStore.Items.length }} items for: '{{ todoStore.Auth.Name }}'</h4>
+    <div style="margin: 10px;" v-for="item in todoStore.Items">
+      <TodoItemCard :item="item" @@completed="handleCompleted"></TodoItemCard>
+    </div>
   </div>
   <div v-else>
-    no data yet...
+    Loading todo items ...
   </div>
 </template>

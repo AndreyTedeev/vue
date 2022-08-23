@@ -12,8 +12,8 @@ import TheTodo from '../components/TheTodo.vue'
 <style>
 @media (min-width: 1024px) {
   .todoApp {
-    min-height: 100vh;
-    display: flex;
+    /* min-height: 100vh; */
+    /* display: flex; */
     align-items: top;
   }
 }
