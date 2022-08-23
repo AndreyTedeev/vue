@@ -24,6 +24,16 @@ export const useTodoStore = defineStore("TodoStore", {
                 item.isCompleted = !item.isCompleted
             }
         },
+        Upsert(itemId: Number | null, title: string, body: string) {
+            const item = this.Items.find(x => x.id == itemId)
+            if (item) {
+                item.title = title
+                item.body = body
+            }
+            else {
+                // Insert new todo
+            }
+        },
         async Load() {
             const url = "https://jsonplaceholder.typicode.com/posts";
             await this.LoadFromUrl(url);

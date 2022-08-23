@@ -30,13 +30,18 @@ const handleEdit= (itemId: Number | null) => {
 const cancelEdit = () => {
   editItemIdRef.value = null;
 }
+
+const saveEdit = (title: string, body: string) => {
+  todoStore.Upsert(editItemIdRef.value, title, body)
+  editItemIdRef.value = null;
+}
 </script>
 
 <template>
   <div v-if="todoStore.IsLoaded" class="todoApp">
     <h4>Loaded {{ todoStore.Items.length }} items for: '{{ todoStore.Auth.name }}'</h4>
     <div style="margin: 10px;" v-for="item in todoStore.Items">
-      <TodoItemEdit v-if="isEditingItem(item)" :item="item" @@cancel="cancelEdit"></TodoItemEdit>
+      <TodoItemEdit v-if="isEditingItem(item)" :item="item" @@cancel="cancelEdit" @@save="saveEdit"></TodoItemEdit>
       <TodoItemCard v-else :item="item" @@completed="handleCompleted" @@edit="handleEdit"></TodoItemCard>
     </div>
   </div>

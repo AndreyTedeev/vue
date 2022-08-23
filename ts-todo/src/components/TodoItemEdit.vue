@@ -16,7 +16,7 @@ onMounted(() => {
 
 defineEmits<{
     (e: '@cancel'): void,
-    (e: '@save'): void
+    (e: '@save', title: string, body: string): void
 }>();
 
 </script>
@@ -24,10 +24,10 @@ defineEmits<{
 <template>
     <div class="todo-edit">
         <input class="todo-edit-input" type="text" v-model="title" placeholder="Title" />
-        <textarea style="margin-top: 5px; resize: none; height: 4em;" :value="body" placeholder="Details"></textarea>
+        <textarea style="margin-top: 5px; resize: none; height: 4em;" v-model="body" placeholder="Details"></textarea>
         <div class="todo-edit-buttons">
             <button class="todo-edit-button" @click="$emit('@cancel')">Cancel</button>
-            <button class="todo-edit-button">Save</button>
+            <button class="todo-edit-button" @click="$emit('@save', title, body)">Save</button>
         </div>
     </div>
 </template>
