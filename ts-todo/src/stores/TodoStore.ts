@@ -58,7 +58,7 @@ export const useTodoStore = defineStore("TodoStore", {
             await new Promise(resolve => setTimeout(resolve, 1000));
 
             // Emulates REST API call to get items by user
-            const response = await axios.get<TodoItem[]>(url);
+            const response = await axios.get<TodoItem[]>(url); 
             this.Items = response.data.filter(x => x.userId == this.Auth.id);
             this.IsLoaded = true;
         }
