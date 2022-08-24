@@ -2,8 +2,8 @@
 import { useTodoStore } from "@/stores/TodoStore";
 import type { TodoItem } from "@/types/TodoItem";
 import { onMounted, ref } from "vue";
-import TodoItemCard from "./TodoItemCard.vue";
-import TodoItemEdit from "./TodoItemEdit.vue";
+import TodoItemCard from "@/components/TodoItemCard.vue";
+import TodoItemEdit from "@/components/TodoItemEdit.vue";
 
 const todoStore = useTodoStore();
 

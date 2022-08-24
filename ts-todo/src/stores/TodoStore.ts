@@ -3,7 +3,6 @@ import { defineStore, acceptHMRUpdate } from "pinia";
 import { useUserStore } from "@/stores/UserStore";
 
 import { TodoItem } from "@/types/TodoItem";
-import { computed } from "@vue/reactivity";
 
 export const useTodoStore = defineStore("TodoStore", {
     state: () => {

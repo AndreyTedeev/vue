@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import HelloWorld from '@/components/HelloWorld.vue'
 import { useUserStore } from "@/stores/UserStore";
 import { useTodoStore } from "@/stores/TodoStore";
 

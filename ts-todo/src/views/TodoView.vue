@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import Thetodo from '@/components/TheTodo.vue'
-import TheTodo from '../components/TheTodo.vue'
+import TheTodo from '@/components/TheTodo.vue'
 </script>
 
 <template>
